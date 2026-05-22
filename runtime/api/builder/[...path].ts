@@ -1,4 +1,10 @@
-import { handle } from '@hono/node-server/vercel';
+import { createVercelBuilderHandler } from '@overbase/builder-sdk/vercel';
 import app from '../../src/server.js';
 
-export default handle(app);
+export const config = {
+	api: {
+		bodyParser: false
+	}
+};
+
+export default createVercelBuilderHandler(app.fetch);

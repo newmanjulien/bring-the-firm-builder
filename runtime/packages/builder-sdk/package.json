@@ -44,6 +44,10 @@
 			"types": "./dist/streams.d.ts",
 			"default": "./dist/streams.js"
 		},
+		"./vercel": {
+			"types": "./dist/vercel.d.ts",
+			"default": "./dist/vercel.js"
+		},
 		"./openai": {
 			"types": "./dist/openai.d.ts",
 			"default": "./dist/openai.js"
