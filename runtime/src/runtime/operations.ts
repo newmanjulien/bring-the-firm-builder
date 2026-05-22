@@ -75,7 +75,7 @@ export function createBringTheFirmRuntime(deps: RuntimeDependencies): BuilderApp
 		const exampleSets = listBringTheFirmExamples().map(toExampleSetSummary);
 
 		if (exampleSets.length === 0) {
-			throw new Error('No Bring the firm examples are available.');
+			throw new Error('No Bring the Firm examples are available.');
 		}
 
 		const bringTheFirmState = getBringTheFirmAppState(input.appState);
@@ -165,7 +165,7 @@ export function createBringTheFirmRuntime(deps: RuntimeDependencies): BuilderApp
 		);
 
 		if (draftExampleCandidates.length === 0) {
-			throw new Error('No Bring the firm draft examples are available for these examples.');
+			throw new Error('No Bring the Firm draft examples are available for these examples.');
 		}
 
 		const setupPromptText = buildBuilderRunSetupPromptText(input.setup);

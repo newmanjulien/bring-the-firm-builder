@@ -52,7 +52,7 @@ export async function routeBringTheFirmBuilderRequest(params: {
 		systemPrompt: prompt.systemPrompt,
 		userPrompt: prompt.userPrompt,
 		toolName: BRING_THE_FIRM_ROUTE_TOOL_NAME,
-		toolDescription: 'Select the closest Bring the firm examples set and the first follow-up question.',
+		toolDescription: 'Select the closest Bring the Firm examples set and the first follow-up question.',
 		toolParameters: {
 			type: 'object',
 			additionalProperties: false,
@@ -85,7 +85,7 @@ export async function adaptBringTheFirmExample(params: {
 		systemPrompt: prompt.systemPrompt,
 		userPrompt: prompt.userPrompt,
 		toolName: BRING_THE_FIRM_ADAPT_TOOL_NAME,
-		toolDescription: 'Pick the closest Bring the firm example and return the adapted email draft.',
+		toolDescription: 'Pick the closest Bring the Firm example and return the adapted email draft.',
 		toolParameters: {
 			type: 'object',
 			additionalProperties: false,
@@ -104,7 +104,7 @@ export async function adaptBringTheFirmExample(params: {
 		params.draftExamples[0];
 
 	if (!selectedExample) {
-		throw new Error('No Bring the firm examples are available to adapt.');
+		throw new Error('No Bring the Firm examples are available to adapt.');
 	}
 
 	return {
@@ -128,7 +128,7 @@ export async function applyBringTheFirmInitialAnswer(params: {
 		systemPrompt: prompt.systemPrompt,
 		userPrompt: prompt.userPrompt,
 		toolName: BRING_THE_FIRM_INITIAL_ANSWER_TOOL_NAME,
-		toolDescription: 'Return the hidden Bring the firm email draft after applying the initial answer.',
+		toolDescription: 'Return the hidden Bring the Firm email draft after applying the initial answer.',
 		toolParameters: {
 			type: 'object',
 			additionalProperties: false,

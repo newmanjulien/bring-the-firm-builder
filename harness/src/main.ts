@@ -20,75 +20,79 @@ import {
 const state = createHarnessState();
 let running = false;
 
-document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
-	<section class="shell">
-		<aside class="panel setup-panel">
-			<div class="panel-header">
-				<h1>Bring the Firm</h1>
-				<div class="status" id="status">Loading</div>
-			</div>
-			<div id="manifestDetails" class="manifest-details"></div>
-			<div class="segmented" role="group" aria-label="Guided setup action">
-				<button id="submittedButton" type="button">Submitted</button>
-				<button id="skippedButton" type="button">Skipped</button>
-			</div>
-			<div id="guideQuestions" class="guide-questions"></div>
-			<details class="setup-preview">
-				<summary>Generated initial message</summary>
-				<pre id="initialMessage"></pre>
-			</details>
-			<details class="setup-preview">
-				<summary>Run setup JSON</summary>
-				<pre id="setupJson"></pre>
-			</details>
-			<label class="field">
-				<span>Message</span>
-				<textarea id="messageText" rows="7" placeholder="Answer the follow-up or refine the visible draft"></textarea>
-			</label>
-			<div class="button-row">
-				<button id="startButton" type="button">Start Turn</button>
-				<button id="continueButton" type="button">Continue Turn</button>
-			</div>
-			<div class="button-row secondary-actions">
-				<button id="resetRunButton" type="button">Reset Run</button>
-				<button id="resetAnswersButton" type="button">Reset Answers</button>
-			</div>
-		</aside>
-		<main class="panel transcript-panel">
-			<div class="panel-header">
-				<h2>Transcript</h2>
-			</div>
-			<div id="transcript" class="transcript"></div>
-			<div id="error" class="error" hidden></div>
-		</main>
-		<aside class="json-column">
-			<section class="panel json-panel">
+function createStaticShell() {
+	document.querySelector<HTMLDivElement>('#app')!.innerHTML = `
+		<section class="shell">
+			<aside class="panel setup-panel">
 				<div class="panel-header">
-					<h2>Visible Draft</h2>
+					<h1>Bring the Firm</h1>
+					<div class="status" id="status">Loading</div>
 				</div>
-				<pre id="visibleDraft"></pre>
-			</section>
-			<section class="panel json-panel">
+				<div id="manifestDetails" class="manifest-details"></div>
+				<div class="segmented" role="group" aria-label="Guided setup action">
+					<button id="submittedButton" type="button">Submitted</button>
+					<button id="skippedButton" type="button">Skipped</button>
+				</div>
+				<div id="guideQuestions" class="guide-questions"></div>
+				<details class="setup-preview">
+					<summary>Generated initial message</summary>
+					<pre id="initialMessage"></pre>
+				</details>
+				<details class="setup-preview">
+					<summary>Run setup JSON</summary>
+					<pre id="setupJson"></pre>
+				</details>
+				<label class="field">
+					<span>Message</span>
+					<textarea id="messageText" rows="7" placeholder="Answer the follow-up or refine the visible draft"></textarea>
+				</label>
+				<div class="button-row">
+					<button id="startButton" type="button">Start Turn</button>
+					<button id="continueButton" type="button">Continue Turn</button>
+				</div>
+				<div class="button-row secondary-actions">
+					<button id="resetRunButton" type="button">Reset Run</button>
+					<button id="resetAnswersButton" type="button">Reset Answers</button>
+				</div>
+			</aside>
+			<main class="panel transcript-panel">
 				<div class="panel-header">
-					<h2>Hidden Draft</h2>
+					<h2>Transcript</h2>
 				</div>
-				<pre id="hiddenDraft"></pre>
-			</section>
-			<section class="panel json-panel">
-				<div class="panel-header">
-					<h2>App State</h2>
-				</div>
-				<pre id="appState"></pre>
-			</section>
-			<section class="panel json-panel">
-				<div class="panel-header">
-					<h2>Events</h2>
-				</div>
-				<pre id="events"></pre>
-			</section>
-		</aside>
-	</section>
-`;
+				<div id="transcript" class="transcript"></div>
+				<div id="error" class="error" hidden></div>
+			</main>
+			<aside class="json-column">
+				<section class="panel json-panel">
+					<div class="panel-header">
+						<h2>Visible Draft</h2>
+					</div>
+					<pre id="visibleDraft"></pre>
+				</section>
+				<section class="panel json-panel">
+					<div class="panel-header">
+						<h2>Hidden Draft</h2>
+					</div>
+					<pre id="hiddenDraft"></pre>
+				</section>
+				<section class="panel json-panel">
+					<div class="panel-header">
+						<h2>App State</h2>
+					</div>
+					<pre id="appState"></pre>
+				</section>
+				<section class="panel json-panel">
+					<div class="panel-header">
+						<h2>Events</h2>
+					</div>
+					<pre id="events"></pre>
+				</section>
+			</aside>
+		</section>
+	`;
+}
+
+createStaticShell();
 
 function getElement<T extends HTMLElement>(id: string): T {
 	const element = document.getElementById(id);
@@ -218,35 +222,6 @@ function renderGuideQuestions() {
 			.join('') ?? '';
 }
 
-function bindGuideQuestions() {
-	guideQuestions.querySelectorAll<HTMLInputElement>('input[type="radio"]').forEach((input) => {
-		input.addEventListener('change', () => {
-			if (input.checked) {
-				setGuideAnswer(state, input.name, input.value);
-				render();
-			}
-		});
-	});
-	guideQuestions.querySelectorAll<HTMLInputElement>('.custom-answer').forEach((input) => {
-		const question = input.closest<HTMLElement>('.guide-question');
-		input.addEventListener('input', () => {
-			if (question) {
-				setGuideAnswer(state, question.dataset.questionId ?? '', input.value);
-				renderSetupPreview();
-			}
-		});
-	});
-	guideQuestions.querySelectorAll<HTMLTextAreaElement>('.text-answer').forEach((textarea) => {
-		const question = textarea.closest<HTMLElement>('.guide-question');
-		textarea.addEventListener('input', () => {
-			if (question) {
-				setGuideAnswer(state, question.dataset.questionId ?? '', textarea.value);
-				renderSetupPreview();
-			}
-		});
-	});
-}
-
 function renderSetupPreview() {
 	if (!state.manifest) {
 		initialMessage.textContent = '';
@@ -271,7 +246,7 @@ function renderManifest() {
 		: '';
 }
 
-function render() {
+function syncSetupControls() {
 	const loaded = Boolean(state.manifest);
 	const skippedAvailable = canUseSkippedRemaining(state);
 
@@ -285,23 +260,73 @@ function render() {
 	status.textContent = running ? 'Running' : loaded ? 'Idle' : 'Loading';
 	submittedButton.classList.toggle('active', state.setupAction === 'submitted');
 	skippedButton.classList.toggle('active', state.setupAction === 'skippedRemaining');
-	renderManifest();
-	renderGuideQuestions();
-	bindGuideQuestions();
-	renderSetupPreview();
-	renderTranscript();
+}
+
+function syncGuideQuestionControls() {
+	const guide = getGuide(state);
+
+	if (!guide) {
+		return;
+	}
+
+	for (const question of guide.questions) {
+		const answer = getGuideAnswer(state, question.id);
+		const questionElement = [...guideQuestions.querySelectorAll<HTMLElement>('.guide-question')].find(
+			(element) => element.dataset.questionId === question.id
+		);
+
+		if (!questionElement) {
+			continue;
+		}
+
+		if (question.type === 'choice') {
+			questionElement.querySelectorAll<HTMLInputElement>('input[type="radio"]').forEach((input) => {
+				input.checked = answer === input.value;
+			});
+
+			const customAnswer = questionElement.querySelector<HTMLInputElement>('.custom-answer');
+			const customValue = question.options.includes(answer) ? '' : answer;
+
+			if (customAnswer && customAnswer.value !== customValue) {
+				customAnswer.value = customValue;
+			}
+
+			continue;
+		}
+
+		const textarea = questionElement.querySelector<HTMLTextAreaElement>('.text-answer');
+
+		if (textarea && textarea.value !== answer) {
+			textarea.value = answer;
+		}
+	}
+}
+
+function syncJsonPanels() {
 	visibleDraft.textContent = formatJson(getDraftByVisibility('visible'));
 	hiddenDraft.textContent = formatJson(getDraftByVisibility('hidden'));
 	appState.textContent = formatJson(state.hostState.appState);
 	events.textContent = formatJson(state.events.slice(-30));
+}
+
+function syncError() {
 	error.hidden = !state.errorText;
 	error.textContent = state.errorText ?? '';
+}
+
+function syncView() {
+	syncSetupControls();
+	syncGuideQuestionControls();
+	renderSetupPreview();
+	renderTranscript();
+	syncJsonPanels();
+	syncError();
 }
 
 async function runWithStatus(task: () => Promise<void>) {
 	running = true;
 	state.errorText = null;
-	render();
+	syncView();
 
 	try {
 		await task();
@@ -309,28 +334,60 @@ async function runWithStatus(task: () => Promise<void>) {
 		state.errorText = runError instanceof Error ? runError.message : 'Runtime request failed.';
 	} finally {
 		running = false;
-		render();
+		syncView();
 	}
 }
 
+guideQuestions.addEventListener('change', (event) => {
+	const input = event.target instanceof HTMLInputElement ? event.target : null;
+
+	if (!input?.matches('input[type="radio"]') || !input.checked) {
+		return;
+	}
+
+	setGuideAnswer(state, input.name, input.value);
+	syncView();
+});
+
+guideQuestions.addEventListener('input', (event) => {
+	const input = event.target;
+
+	if (!(input instanceof HTMLInputElement || input instanceof HTMLTextAreaElement)) {
+		return;
+	}
+
+	if (!input.matches('.custom-answer, .text-answer')) {
+		return;
+	}
+
+	const question = input.closest<HTMLElement>('.guide-question');
+
+	if (!question) {
+		return;
+	}
+
+	setGuideAnswer(state, question.dataset.questionId ?? '', input.value);
+	syncView();
+});
+
 submittedButton.addEventListener('click', () => {
 	setSetupAction(state, 'submitted');
-	render();
+	syncView();
 });
 
 skippedButton.addEventListener('click', () => {
 	setSetupAction(state, 'skippedRemaining');
-	render();
+	syncView();
 });
 
 resetRunButton.addEventListener('click', () => {
 	resetHarnessRun(state);
-	render();
+	syncView();
 });
 
 resetAnswersButton.addEventListener('click', () => {
 	resetGuideAnswers(state);
-	render();
+	syncView();
 });
 
 startButton.addEventListener('click', () => {
@@ -350,7 +407,7 @@ startButton.addEventListener('click', () => {
 			},
 			onEvent(event) {
 				applyHarnessEvent(state, event);
-				render();
+				syncView();
 			}
 		});
 	});
@@ -366,7 +423,7 @@ continueButton.addEventListener('click', () => {
 
 		appendUserMessage(state, message);
 		messageText.value = '';
-		render();
+		syncView();
 
 		await postRuntimeEvents({
 			body: {
@@ -381,7 +438,7 @@ continueButton.addEventListener('click', () => {
 			},
 			onEvent(event) {
 				applyHarnessEvent(state, event);
-				render();
+				syncView();
 			}
 		});
 	});
@@ -389,4 +446,6 @@ continueButton.addEventListener('click', () => {
 
 void runWithStatus(async () => {
 	state.manifest = await fetchBuilderManifest();
+	renderManifest();
+	renderGuideQuestions();
 });

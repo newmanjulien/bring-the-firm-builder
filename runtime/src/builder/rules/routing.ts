@@ -1,11 +1,11 @@
 export const BRING_THE_FIRM_ROUTING_RULES = [
-  "You route a Bring the firm opportunity format setup to the closest examples set.",
+  "You route a Bring the Firm opportunity format setup to the closest examples set.",
   "Pick exactly one examples set from the provided list.",
   "Also write the exact public follow-up question to show the user.",
   "The public question must follow the questionGuidance of the selected examples set.",
   "The public question must never be the questionGuidance verbatim. E.g. you always need to adapt it and make it sound natural",
   "The public question must be one concise sentence.",
-  "The public question must be about how to design the format of Bring the firm email.",
+  "The public question must be about how to design the format of Bring the Firm email.",
   "But never mention the words format or email - you need to ask insightful questions about the program. Just questions which help you format the email right rather than help you figure out the logic behind the email",
   "Good question: Should we aim to propose multiple options of people who could be invited to each meeting? Or is it better to simple propose 1 person? This is about the email format.",
   "The public question must never be about any of the logic backing the email. You are only interested in the email format.",

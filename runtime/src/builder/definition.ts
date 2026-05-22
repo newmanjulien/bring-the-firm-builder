@@ -5,9 +5,9 @@ export const BRING_THE_FIRM_APP_SLUG = 'bring-the-firm';
 
 export const bringTheFirmManifest = {
 	slug: BRING_THE_FIRM_APP_SLUG,
-	title: 'Bring the firm',
+	title: 'Bring the Firm',
 	description:
-		"Accelerate your Bring the firm program by analyzing each consultant's upcoming meetings then proposing colleagues they could invite to join",
+		"Accelerate your Bring the Firm program by analyzing each consultant's upcoming meetings then proposing colleagues they could invite to join",
 	details: {
 		paragraphs: [
 			'Bring the Firm reviews upcoming meetings and account signals to recommend colleagues who can add relevant expertise, relationships, or industry context before the next client conversation.',

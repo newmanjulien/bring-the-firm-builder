@@ -3,7 +3,7 @@
 import type { GuideDefinition } from './types.js';
 
 export const bringTheFirmGuide = {
-	intro: 'Let\'s build your Bring the firm opportunity format. I just have a few quick questions.',
+	intro: 'Let\'s build your Bring the Firm opportunity format. I just have a few quick questions.',
 	questions: [
 		{
 			id: 'existing-program',
