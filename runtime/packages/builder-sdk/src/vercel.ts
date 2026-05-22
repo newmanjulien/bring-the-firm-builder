@@ -122,15 +122,24 @@ async function writeResponse(res: ServerResponse, response: Response): Promise<v
 function writeResponseHeaders(res: ServerResponse, headers: Headers): void {
 	const getSetCookie = (headers as Headers & { getSetCookie?: () => string[] }).getSetCookie;
 	const setCookieHeaders = getSetCookie?.call(headers);
+	let setCookieHeader: string | undefined;
 
 	headers.forEach((value, name) => {
-		if (name.toLowerCase() !== 'set-cookie') {
-			res.setHeader(name, value);
+		if (name.toLowerCase() === 'set-cookie') {
+			setCookieHeader = value;
+			return;
 		}
+
+		res.setHeader(name, value);
 	});
 
 	if (setCookieHeaders && setCookieHeaders.length > 0) {
 		res.setHeader('set-cookie', setCookieHeaders);
+		return;
+	}
+
+	if (setCookieHeaders === undefined && setCookieHeader !== undefined) {
+		res.setHeader('set-cookie', setCookieHeader);
 	}
 }
 
