@@ -1,0 +1,52 @@
+{
+	"name": "@overbase/builder-sdk",
+	"version": "0.0.0",
+	"type": "module",
+	"sideEffects": false,
+	"files": [
+		"dist"
+	],
+	"main": "./dist/index.js",
+	"types": "./dist/index.d.ts",
+	"scripts": {
+		"build": "tsc -p tsconfig.build.json"
+	},
+	"exports": {
+		".": {
+			"types": "./dist/index.d.ts",
+			"default": "./dist/index.js"
+		},
+		"./email": {
+			"types": "./dist/email.d.ts",
+			"default": "./dist/email.js"
+		},
+		"./artifacts": {
+			"types": "./dist/artifacts.d.ts",
+			"default": "./dist/artifacts.js"
+		},
+		"./catalog": {
+			"types": "./dist/catalog.d.ts",
+			"default": "./dist/catalog.js"
+		},
+		"./app-protocol": {
+			"types": "./dist/app-protocol.d.ts",
+			"default": "./dist/app-protocol.js"
+		},
+		"./host": {
+			"types": "./dist/host.d.ts",
+			"default": "./dist/host.js"
+		},
+		"./transport": {
+			"types": "./dist/transport.d.ts",
+			"default": "./dist/transport.js"
+		},
+		"./streams": {
+			"types": "./dist/streams.d.ts",
+			"default": "./dist/streams.js"
+		},
+		"./openai": {
+			"types": "./dist/openai.d.ts",
+			"default": "./dist/openai.js"
+		}
+	}
+}

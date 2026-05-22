@@ -1,0 +1,25 @@
+{
+	"name": "bring-the-firm-builder-runtime",
+	"private": true,
+	"version": "0.0.1",
+	"type": "module",
+	"scripts": {
+		"builder-sdk:build": "npm --prefix packages/builder-sdk run build",
+		"postinstall": "npm run builder-sdk:build",
+		"check": "npm run builder-sdk:build && tsc --noEmit",
+		"lint": "npm run builder-sdk:build && eslint .",
+		"dev": "BRING_THE_FIRM_DEV_HARNESS=1 node --env-file=.env.local --import tsx src/server.local.ts"
+	},
+	"dependencies": {
+		"@hono/node-server": "^1.19.6",
+		"@overbase/builder-sdk": "file:packages/builder-sdk",
+		"hono": "^4.10.7"
+	},
+	"devDependencies": {
+		"@types/node": "^22.18.10",
+		"eslint": "^9.39.2",
+		"tsx": "^4.21.0",
+		"typescript": "^5.9.3",
+		"typescript-eslint": "^8.54.0"
+	}
+}

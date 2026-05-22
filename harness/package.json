@@ -1,0 +1,21 @@
+{
+	"name": "bring-the-firm-builder-harness",
+	"private": true,
+	"version": "0.0.1",
+	"type": "module",
+	"scripts": {
+		"dev": "vite dev --host 127.0.0.1",
+		"check": "npm --prefix ../runtime run builder-sdk:build && tsc --noEmit",
+		"lint": "eslint ."
+	},
+	"dependencies": {
+		"@overbase/builder-sdk": "file:../runtime/packages/builder-sdk"
+	},
+	"devDependencies": {
+		"@types/node": "^22.18.10",
+		"eslint": "^9.39.2",
+		"typescript": "^5.9.3",
+		"typescript-eslint": "^8.54.0",
+		"vite": "^7.3.1"
+	}
+}
