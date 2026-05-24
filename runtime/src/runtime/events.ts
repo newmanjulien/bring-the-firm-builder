@@ -5,60 +5,33 @@ import {
 import type { BuilderAppFinalEvent } from '@overbase/builder-sdk/app-protocol';
 import type { EmailDraft, EmailDraftPatch } from '@overbase/builder-sdk/email';
 
-export function askFollowUpQuestion(params: {
+export function showInitialEmailDraft(params: {
+	emailDraft: EmailDraft;
 	questionText: string;
 	selectedExamplesSlug: string;
-}): BuilderAppFinalEvent[] {
-	return [
-		{ type: 'assistantComplete', text: params.questionText },
-		{
-			type: 'appStatePatch',
-			patch: {
-				selectedExamplesSlug: params.selectedExamplesSlug,
-				initialQuestionText: params.questionText
-			}
-		},
-		{ type: 'enqueueBackgroundJob' },
-		{ type: 'waitForUser' },
-		completeTurn()
-	];
-}
-
-export function revealEmailDraft(emailDraft: EmailDraft): BuilderAppFinalEvent[] {
-	return [
-		{
-			type: 'assistantComplete',
-			text: 'I adjusted the draft based on that and put it in the panel.'
-		},
-		{
-			type: 'artifactSet',
-			artifact: createPrimaryEmailDraftArtifactSet({
-				value: emailDraft,
-				visibility: 'visible'
-			})
-		},
-		completeTurn()
-	];
-}
-
-export function setHiddenEmailDraft(params: {
-	emailDraft: EmailDraft;
 	selectedExampleSlug: string;
 }): BuilderAppFinalEvent[] {
 	return [
 		{
-			type: 'artifactSet',
-			artifact: createPrimaryEmailDraftArtifactSet({
-				value: params.emailDraft,
-				visibility: 'hidden'
-			})
+			type: 'assistantComplete',
+			text: `Check out this potential format your team could receive. You can edit it using the Edit button and click Publish once you're happy with the format. Keep in mind that we're just designing the format of the email and we'll set up the data sources afterwards. One question which might help me further improve the format is ${params.questionText}`
 		},
 		{
 			type: 'appStatePatch',
 			patch: {
-				selectedExampleSlug: params.selectedExampleSlug
+				selectedExamplesSlug: params.selectedExamplesSlug,
+				selectedExampleSlug: params.selectedExampleSlug,
+				initialQuestionText: params.questionText
 			}
 		},
+		{
+			type: 'artifactSet',
+			artifact: createPrimaryEmailDraftArtifactSet({
+				value: params.emailDraft,
+				visibility: 'visible'
+			})
+		},
+		{ type: 'waitForUser' },
 		completeTurn()
 	];
 }

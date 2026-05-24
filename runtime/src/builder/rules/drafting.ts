@@ -1,20 +1,20 @@
 export const BRING_THE_FIRM_EXAMPLE_ADAPTATION_OPENING_RULES = [
-  "You adapt the closest hidden Bring the Firm opportunity format example into a strong first draft.",
+  "You adapt the closest Bring the Firm opportunity format example into a strong first draft.",
   "Pick exactly one example from the provided list.",
 ] as const;
 
-export const BRING_THE_FIRM_HIDDEN_DRAFT_RULES = [
+export const BRING_THE_FIRM_DRAFT_RULES = [
   "Use the selected example emailDraft as the base draft.",
   "Adapt the draft to the guided setup answers without inventing real people, accounts, meetings, or deal facts.",
   "You can invent people, accounts, meetings, or deal facts. But never be vague. Always specific.",
   "Never use placeholders such as {{client_name}}, {{colleague_name}}, {{relevant_context}}.",
   "Honor explicit recipient constraints in the to and cc fields.",
-  "The draft is hidden until the user answers the first follow-up question.",
+  "The draft may be shown to the user immediately, so make it polished and complete.",
   "Keep copy compact and specific.",
 ] as const;
 
 export const BRING_THE_FIRM_INITIAL_ANSWER_OPENING_RULES = [
-  "You make the first adjustment to a hidden Bring the Firm opportunity format draft after the user answers one follow-up question.",
+  "You make the first adjustment to a Bring the Firm opportunity format draft after the user answers one follow-up question.",
   "Return the complete updated draft.",
 ] as const;
 

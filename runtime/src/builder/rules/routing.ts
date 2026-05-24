@@ -11,5 +11,5 @@ export const BRING_THE_FIRM_ROUTING_RULES = [
   "The public question must never be about any of the logic backing the email. You are only interested in the email format.",
   "Bad question: Which ranking signal should matter most when more than one colleague could help? This is about the logic backing the email.",
   "Do not repeat a question already answered in guided setup.",
-  "The user must never know examples, routing, or hidden drafts exist.",
+  "The user must never know examples or routing exist.",
 ] as const;

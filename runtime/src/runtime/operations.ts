@@ -1,8 +1,6 @@
 import {
 	adaptBringTheFirmExample,
-	applyBringTheFirmInitialAnswer,
 	bringTheFirmManifest,
-	getBringTheFirmExamples,
 	listBringTheFirmDraftExamples,
 	listBringTheFirmExamples,
 	routeBringTheFirmBuilderRequest,
@@ -10,24 +8,18 @@ import {
 } from '../builder/index.js';
 import { buildBuilderRunSetupPromptText } from '@overbase/builder-sdk/app-protocol';
 import type {
-	BuilderAppBackgroundJobInput,
 	BuilderAppContinueTurnInput,
 	BuilderAppStartTurnInput,
 	BuilderRuntimeContext
 } from '@overbase/builder-sdk/app-protocol';
-import {
-	getHiddenPrimaryEmailDraftArtifact,
-	getVisiblePrimaryEmailDraftArtifact
-} from '@overbase/builder-sdk/artifacts';
+import { getVisiblePrimaryEmailDraftArtifact } from '@overbase/builder-sdk/artifacts';
 import type { EmailDraft } from '@overbase/builder-sdk/email';
 import type { BuilderAppRuntime } from '@overbase/builder-sdk/host';
 import { getBringTheFirmAppState } from './app-state.js';
 import type { RuntimeDependencies } from './dependencies.js';
 import {
-	askFollowUpQuestion,
 	patchVisibleEmailDraft,
-	revealEmailDraft,
-	setHiddenEmailDraft
+	showInitialEmailDraft
 } from './events.js';
 
 type BringTheFirmExampleSetSummary = {
@@ -72,6 +64,7 @@ function toDraftExampleCandidate(example: {
 export function createBringTheFirmRuntime(deps: RuntimeDependencies): BuilderAppRuntime {
 	async function startTurn(input: BuilderAppStartTurnInput) {
 		const fastOpenAIConfig = deps.getOpenAIConfig('fast');
+		const openAIConfig = deps.getOpenAIConfig();
 		const exampleSets = listBringTheFirmExamples().map(toExampleSetSummary);
 
 		if (exampleSets.length === 0) {
@@ -88,20 +81,31 @@ export function createBringTheFirmRuntime(deps: RuntimeDependencies): BuilderApp
 		});
 		const selectedExampleSet =
 			exampleSets.find((candidate) => candidate.slug === routeResult.examplesSlug) ?? exampleSets[0];
+		const draftExampleCandidates = listBringTheFirmDraftExamples(selectedExampleSet.slug).map(
+			toDraftExampleCandidate
+		);
 
-		return askFollowUpQuestion({
+		if (draftExampleCandidates.length === 0) {
+			throw new Error('No Bring the Firm draft examples are available for these examples.');
+		}
+
+		const adapted = await adaptBringTheFirmExample({
+			setupPromptText,
+			examples: selectedExampleSet,
+			draftExamples: draftExampleCandidates,
+			aiContext: bringTheFirmState.aiContext,
+			openAIConfig
+		});
+
+		return showInitialEmailDraft({
+			emailDraft: adapted.emailDraft,
 			questionText: routeResult.publicQuestion,
-			selectedExamplesSlug: selectedExampleSet.slug
+			selectedExamplesSlug: selectedExampleSet.slug,
+			selectedExampleSlug: adapted.exampleSlug
 		});
 	}
 
 	async function continueTurn(input: BuilderAppContinueTurnInput, context: BuilderRuntimeContext) {
-		const hiddenArtifact = getHiddenPrimaryEmailDraftArtifact(input.artifacts);
-
-		if (hiddenArtifact) {
-			return await applyInitialAnswerTurn(input, hiddenArtifact.value);
-		}
-
 		const visibleArtifact = getVisiblePrimaryEmailDraftArtifact(input.artifacts);
 
 		if (visibleArtifact) {
@@ -109,21 +113,6 @@ export function createBringTheFirmRuntime(deps: RuntimeDependencies): BuilderApp
 		}
 
 		throw new Error('The email draft is unavailable.');
-	}
-
-	async function applyInitialAnswerTurn(input: BuilderAppContinueTurnInput, hiddenDraft: EmailDraft) {
-		const bringTheFirmState = getBringTheFirmAppState(input.appState);
-		const setupPromptText = buildBuilderRunSetupPromptText(input.setup);
-		const emailDraft = await applyBringTheFirmInitialAnswer({
-			setupPromptText,
-			initialQuestion: bringTheFirmState.initialQuestionText ?? '',
-			initialAnswer: input.userMessage,
-			draft: hiddenDraft,
-			aiContext: bringTheFirmState.aiContext,
-			openAIConfig: deps.getOpenAIConfig()
-		});
-
-		return revealEmailDraft(emailDraft);
 	}
 
 	async function refineVisibleDraftTurn(
@@ -146,47 +135,9 @@ export function createBringTheFirmRuntime(deps: RuntimeDependencies): BuilderApp
 		return patchVisibleEmailDraft(result);
 	}
 
-	async function backgroundJob(input: BuilderAppBackgroundJobInput) {
-		const bringTheFirmState = getBringTheFirmAppState(input.appState);
-		const selectedExamplesSlug = bringTheFirmState.selectedExamplesSlug;
-
-		if (!selectedExamplesSlug) {
-			throw new Error('The selected examples are unavailable.');
-		}
-
-		const exampleSet = getBringTheFirmExamples(selectedExamplesSlug);
-
-		if (!exampleSet) {
-			throw new Error('The selected examples are unavailable.');
-		}
-
-		const draftExampleCandidates = listBringTheFirmDraftExamples(selectedExamplesSlug).map(
-			toDraftExampleCandidate
-		);
-
-		if (draftExampleCandidates.length === 0) {
-			throw new Error('No Bring the Firm draft examples are available for these examples.');
-		}
-
-		const setupPromptText = buildBuilderRunSetupPromptText(input.setup);
-		const adapted = await adaptBringTheFirmExample({
-			setupPromptText,
-			examples: toExampleSetSummary(exampleSet),
-			draftExamples: draftExampleCandidates,
-			aiContext: bringTheFirmState.aiContext,
-			openAIConfig: deps.getOpenAIConfig()
-		});
-
-		return setHiddenEmailDraft({
-			emailDraft: adapted.emailDraft,
-			selectedExampleSlug: adapted.exampleSlug
-		});
-	}
-
 	return {
 		manifest: bringTheFirmManifest,
 		startTurn,
-		continueTurn,
-		backgroundJob
+		continueTurn
 	};
 }

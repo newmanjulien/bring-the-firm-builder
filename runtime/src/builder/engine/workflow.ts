@@ -128,7 +128,7 @@ export async function applyBringTheFirmInitialAnswer(params: {
 		systemPrompt: prompt.systemPrompt,
 		userPrompt: prompt.userPrompt,
 		toolName: BRING_THE_FIRM_INITIAL_ANSWER_TOOL_NAME,
-		toolDescription: 'Return the hidden Bring the Firm email draft after applying the initial answer.',
+		toolDescription: 'Return the Bring the Firm email draft after applying the initial answer.',
 		toolParameters: {
 			type: 'object',
 			additionalProperties: false,

@@ -1,7 +1,7 @@
 import type { EmailDraft } from '@overbase/builder-sdk/email';
 import {
+	BRING_THE_FIRM_DRAFT_RULES,
 	BRING_THE_FIRM_EXAMPLE_ADAPTATION_OPENING_RULES,
-	BRING_THE_FIRM_HIDDEN_DRAFT_RULES,
 	BRING_THE_FIRM_INITIAL_ANSWER_OPENING_RULES,
 	BRING_THE_FIRM_REFINEMENT_CHAT_RULES,
 	BRING_THE_FIRM_REFINEMENT_DRAFT_RULES,
@@ -87,7 +87,7 @@ export function buildBringTheFirmExampleAdaptationPrompt(params: {
 			BRING_THE_FIRM_AI_CONTEXT_RULE,
 			EXECUTIVE_WRITING_RULES,
 			EXAMPLE_FIDELITY_RULES,
-			...BRING_THE_FIRM_HIDDEN_DRAFT_RULES
+			...BRING_THE_FIRM_DRAFT_RULES
 		]),
 		userPrompt: withAiContextBlock(
 			[
@@ -116,7 +116,7 @@ export function buildBringTheFirmInitialAnswerPrompt(params: {
 			BRING_THE_FIRM_AI_CONTEXT_RULE,
 			EXECUTIVE_WRITING_RULES,
 			EXAMPLE_FIDELITY_RULES,
-			...BRING_THE_FIRM_HIDDEN_DRAFT_RULES
+			...BRING_THE_FIRM_DRAFT_RULES
 		]),
 		userPrompt: withAiContextBlock(
 			[
@@ -126,7 +126,7 @@ export function buildBringTheFirmInitialAnswerPrompt(params: {
 				params.initialQuestion,
 				'User answer:',
 				params.initialAnswer,
-				'Hidden draft JSON:',
+				'Current draft JSON:',
 				stringifyPromptData(params.draft)
 			],
 			params.aiContext
