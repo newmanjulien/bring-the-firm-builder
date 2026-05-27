@@ -35,7 +35,7 @@ import type {
 } from '../types.js';
 
 const UPDATE_EMAIL_DRAFT_TOOL_NAME = 'update_email_draft';
-const BRING_THE_FIRM_ROUTE_TOOL_NAME = 'select_bring_the_firm_examples';
+const BRING_THE_FIRM_BUILDER_ROUTE_TOOL_NAME = 'select_bring_the_firm_examples';
 const BRING_THE_FIRM_ADAPT_TOOL_NAME = 'adapt_bring_the_firm_example';
 const BRING_THE_FIRM_INITIAL_ANSWER_TOOL_NAME = 'apply_initial_bring_the_firm_answer';
 
@@ -51,7 +51,7 @@ export async function routeBringTheFirmBuilderRequest(params: {
 		openAIConfig: params.openAIConfig,
 		systemPrompt: prompt.systemPrompt,
 		userPrompt: prompt.userPrompt,
-		toolName: BRING_THE_FIRM_ROUTE_TOOL_NAME,
+		toolName: BRING_THE_FIRM_BUILDER_ROUTE_TOOL_NAME,
 		toolDescription: 'Select the closest Bring the Firm examples set and the first follow-up question.',
 		toolParameters: {
 			type: 'object',
@@ -178,7 +178,7 @@ export async function streamBringTheFirmBuilderTurn(params: {
 				{
 					type: 'function',
 					name: UPDATE_EMAIL_DRAFT_TOOL_NAME,
-					description: 'Patch the visible opportunity format email draft.',
+					description: 'Patch the visible email draft.',
 					parameters: emailDraftPatchJsonSchema
 				}
 			],

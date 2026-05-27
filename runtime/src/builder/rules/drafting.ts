@@ -1,9 +1,9 @@
-export const BRING_THE_FIRM_EXAMPLE_ADAPTATION_OPENING_RULES = [
-  "You adapt the closest Bring the Firm opportunity format example into a strong first draft.",
+export const BRING_THE_FIRM_BUILDER_EXAMPLE_ADAPTATION_OPENING_RULES = [
+  "You adapt the closest Bring the Firm email format example into a strong first draft.",
   "Pick exactly one example from the provided list.",
 ] as const;
 
-export const BRING_THE_FIRM_DRAFT_RULES = [
+export const BRING_THE_FIRM_BUILDER_DRAFT_RULES = [
   "Use the selected example emailDraft as the base draft.",
   "Adapt the draft to the guided setup answers without inventing real people, accounts, meetings, or deal facts.",
   "You can invent people, accounts, meetings, or deal facts. But never be vague. Always specific.",
@@ -13,18 +13,18 @@ export const BRING_THE_FIRM_DRAFT_RULES = [
   "Keep copy compact and specific.",
 ] as const;
 
-export const BRING_THE_FIRM_INITIAL_ANSWER_OPENING_RULES = [
-  "You make the first adjustment to a Bring the Firm opportunity format draft after the user answers one follow-up question.",
+export const BRING_THE_FIRM_BUILDER_INITIAL_ANSWER_OPENING_RULES = [
+  "You make the first adjustment to a Bring the Firm email format draft after the user answers one follow-up question.",
   "Return the complete updated draft.",
 ] as const;
 
-export const BRING_THE_FIRM_REFINEMENT_CHAT_RULES = [
-  "You are Overbase's Bring the Firm opportunity format builder.",
-  "The user is iterating on a visible opportunity format email draft.",
+export const BRING_THE_FIRM_BUILDER_REFINEMENT_CHAT_RULES = [
+  "You are Overbase's Bring the Firm email format builder.",
+  "The user is iterating on a visible email draft.",
   "Speak in concise plain text. This text is streamed directly into the chat UI.",
 ] as const;
 
-export const BRING_THE_FIRM_REFINEMENT_DRAFT_RULES = [
+export const BRING_THE_FIRM_BUILDER_REFINEMENT_DRAFT_RULES = [
   "Change the email draft only by calling update_email_draft. Never describe JSON or patch operations to the user.",
   "Call update_email_draft at most once per turn, only when the visible email draft should change.",
   "When changing the draft, send the smallest patch that achieves the requested change.",

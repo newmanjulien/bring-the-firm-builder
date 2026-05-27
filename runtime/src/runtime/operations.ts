@@ -15,7 +15,7 @@ import type {
 import { getVisiblePrimaryEmailDraftArtifact } from '@overbase/builder-sdk/artifacts';
 import type { EmailDraft } from '@overbase/builder-sdk/email';
 import type { BuilderAppRuntime } from '@overbase/builder-sdk/host';
-import { getBringTheFirmAppState } from './app-state.js';
+import { getBringTheFirmBuilderAppState } from './app-state.js';
 import type { RuntimeDependencies } from './dependencies.js';
 import {
 	patchVisibleEmailDraft,
@@ -71,7 +71,7 @@ export function createBringTheFirmRuntime(deps: RuntimeDependencies): BuilderApp
 			throw new Error('No Bring the Firm examples are available.');
 		}
 
-		const bringTheFirmState = getBringTheFirmAppState(input.appState);
+		const bringTheFirmState = getBringTheFirmBuilderAppState(input.appState);
 		const setupPromptText = buildBuilderRunSetupPromptText(input.setup);
 		const routeResult = await routeBringTheFirmBuilderRequest({
 			setupPromptText,
@@ -123,7 +123,7 @@ export function createBringTheFirmRuntime(deps: RuntimeDependencies): BuilderApp
 		const result = await streamBringTheFirmBuilderTurn({
 			transcript: input.transcript,
 			draft: visibleDraft,
-			aiContext: getBringTheFirmAppState(input.appState).aiContext,
+			aiContext: getBringTheFirmBuilderAppState(input.appState).aiContext,
 			openAIConfig: deps.getOpenAIConfig(),
 			handlers: {
 				onTextDelta: async (delta) => {

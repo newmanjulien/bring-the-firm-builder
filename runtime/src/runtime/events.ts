@@ -14,7 +14,7 @@ export function showInitialEmailDraft(params: {
   return [
     {
       type: "assistantComplete",
-      text: `Check out this potential format your team could receive.\n\nYou can edit it using the Edit button and click Publish once you're happy with the format. Keep in mind that we're just designing the format of the email and we'll set up the data sources afterwards.\n\nOne question which might help me further improve the format is ${params.questionText}`,
+      text: `Check out this potential email format your team could receive.\n\nYou can edit it using the Edit button and click Publish once you're happy with the email format. Keep in mind that we're just designing the email format. We'll set up the rules, logic and data sources afterwards.\n\nOne question which might help me further improve the email format is ${params.questionText}`,
     },
     {
       type: "appStatePatch",

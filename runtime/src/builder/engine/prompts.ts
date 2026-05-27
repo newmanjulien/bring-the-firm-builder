@@ -1,11 +1,11 @@
 import type { EmailDraft } from '@overbase/builder-sdk/email';
 import {
-	BRING_THE_FIRM_DRAFT_RULES,
-	BRING_THE_FIRM_EXAMPLE_ADAPTATION_OPENING_RULES,
-	BRING_THE_FIRM_INITIAL_ANSWER_OPENING_RULES,
-	BRING_THE_FIRM_REFINEMENT_CHAT_RULES,
-	BRING_THE_FIRM_REFINEMENT_DRAFT_RULES,
-	BRING_THE_FIRM_ROUTING_RULES,
+	BRING_THE_FIRM_BUILDER_DRAFT_RULES,
+	BRING_THE_FIRM_BUILDER_EXAMPLE_ADAPTATION_OPENING_RULES,
+	BRING_THE_FIRM_BUILDER_INITIAL_ANSWER_OPENING_RULES,
+	BRING_THE_FIRM_BUILDER_REFINEMENT_CHAT_RULES,
+	BRING_THE_FIRM_BUILDER_REFINEMENT_DRAFT_RULES,
+	BRING_THE_FIRM_BUILDER_ROUTING_RULES,
 	EXAMPLE_FIDELITY_RULES,
 	EXECUTIVE_WRITING_RULES
 } from '../rules/index.js';
@@ -16,7 +16,7 @@ import type {
 } from '../types.js';
 
 const BRING_THE_FIRM_AI_CONTEXT_RULE =
-	'Use Builder/user context to interpret the builder user, intent, audience, and format use. Do not treat it as literal email copy unless the user asks.';
+	'Use Builder/user context to interpret the builder user, intent, audience, and email format use. Do not treat it as literal email copy unless the user asks.';
 
 function stringifyPromptData(value: unknown) {
 	return JSON.stringify(value, null, 2);
@@ -30,7 +30,7 @@ export function formatBringTheFirmAiContextPromptBlock(aiContext?: BringTheFirmA
 	const contextEntries = [
 		['Person context', aiContext?.personContext],
 		['Conversation reason', aiContext?.conversationReason],
-		['Format use', aiContext?.formatUse]
+		['Email format use', aiContext?.emailFormatUse]
 	].filter((entry): entry is [string, string] => Boolean(entry[1]));
 
 	if (contextEntries.length === 0) {
@@ -60,7 +60,7 @@ export function buildBringTheFirmRoutingPrompt(params: {
 }) {
 	return {
 		systemPrompt: joinPromptLines([
-			...BRING_THE_FIRM_ROUTING_RULES,
+			...BRING_THE_FIRM_BUILDER_ROUTING_RULES,
 			BRING_THE_FIRM_AI_CONTEXT_RULE
 		]),
 		userPrompt: withAiContextBlock(
@@ -83,11 +83,11 @@ export function buildBringTheFirmExampleAdaptationPrompt(params: {
 }) {
 	return {
 		systemPrompt: joinPromptLines([
-			...BRING_THE_FIRM_EXAMPLE_ADAPTATION_OPENING_RULES,
+			...BRING_THE_FIRM_BUILDER_EXAMPLE_ADAPTATION_OPENING_RULES,
 			BRING_THE_FIRM_AI_CONTEXT_RULE,
 			EXECUTIVE_WRITING_RULES,
 			EXAMPLE_FIDELITY_RULES,
-			...BRING_THE_FIRM_DRAFT_RULES
+			...BRING_THE_FIRM_BUILDER_DRAFT_RULES
 		]),
 		userPrompt: withAiContextBlock(
 			[
@@ -112,11 +112,11 @@ export function buildBringTheFirmInitialAnswerPrompt(params: {
 }) {
 	return {
 		systemPrompt: joinPromptLines([
-			...BRING_THE_FIRM_INITIAL_ANSWER_OPENING_RULES,
+			...BRING_THE_FIRM_BUILDER_INITIAL_ANSWER_OPENING_RULES,
 			BRING_THE_FIRM_AI_CONTEXT_RULE,
 			EXECUTIVE_WRITING_RULES,
 			EXAMPLE_FIDELITY_RULES,
-			...BRING_THE_FIRM_DRAFT_RULES
+			...BRING_THE_FIRM_BUILDER_DRAFT_RULES
 		]),
 		userPrompt: withAiContextBlock(
 			[
@@ -136,10 +136,10 @@ export function buildBringTheFirmInitialAnswerPrompt(params: {
 
 export function buildBringTheFirmRefinementSystemPrompt() {
 	return joinPromptLines([
-		...BRING_THE_FIRM_REFINEMENT_CHAT_RULES,
+		...BRING_THE_FIRM_BUILDER_REFINEMENT_CHAT_RULES,
 		BRING_THE_FIRM_AI_CONTEXT_RULE,
 		EXECUTIVE_WRITING_RULES,
-		...BRING_THE_FIRM_REFINEMENT_DRAFT_RULES,
+		...BRING_THE_FIRM_BUILDER_REFINEMENT_DRAFT_RULES,
 		EXAMPLE_FIDELITY_RULES
 	]);
 }

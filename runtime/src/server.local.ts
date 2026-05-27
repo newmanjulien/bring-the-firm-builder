@@ -22,7 +22,7 @@ const port = Number(process.env.PORT ?? 8787);
 const runtimeContext = createRuntimeContext();
 const app = createHttpApp(runtimeContext);
 
-if (process.env.BRING_THE_FIRM_DEV_HARNESS === '1') {
+if (process.env.BRING_THE_FIRM_BUILDER_DEV_HARNESS === '1') {
 	const host = createLocalBuilderHost(runtimeContext.runtime);
 
 	app.post('/api/dev-harness/run', async (c) => {

@@ -1,10 +1,10 @@
 import { bringTheFirmGuide } from './guide.js';
 import type { BuilderAppManifest } from './types.js';
 
-export const BRING_THE_FIRM_APP_SLUG = 'bring-the-firm';
+export const BRING_THE_FIRM_BUILDER_APP_SLUG = 'bring-the-firm-builder';
 
 export const bringTheFirmManifest = {
-	slug: BRING_THE_FIRM_APP_SLUG,
+	slug: BRING_THE_FIRM_BUILDER_APP_SLUG,
 	title: 'Bring the Firm',
 	description:
 		"Accelerate your Bring the Firm program by analyzing each consultant's upcoming meetings then proposing colleagues they could invite to join",

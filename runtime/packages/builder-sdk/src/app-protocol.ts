@@ -123,7 +123,7 @@ function buildGuidedInitialMessage({
 	});
 
 	return [
-		`I want to build this opportunity format: ${title}`,
+		`I want to build this email format: ${title}`,
 		'',
 		'Description:',
 		description,

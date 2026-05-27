@@ -15,6 +15,6 @@ export function createServerDependencies(
 				fastReasoningEffort: env.OPENAI_FAST_REASONING_EFFORT
 			});
 		},
-		overbaseSecret: env.BRING_THE_FIRM_OVERBASE_SECRET
+		overbaseSecret: env.BRING_THE_FIRM_BUILDER_OVERBASE_SECRET
 	};
 }

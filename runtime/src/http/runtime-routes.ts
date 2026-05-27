@@ -6,7 +6,7 @@ import type {
 	BuilderRuntimeContext
 } from '@overbase/builder-sdk/app-protocol';
 import { signedBuilderRuntimeRoute } from '@overbase/builder-sdk/transport';
-import { BRING_THE_FIRM_APP_SLUG } from '../builder/index.js';
+import { BRING_THE_FIRM_BUILDER_APP_SLUG } from '../builder/index.js';
 import type { RuntimeDependencies } from '../runtime/dependencies.js';
 import type { BuilderAppRuntime } from '@overbase/builder-sdk/host';
 
@@ -21,7 +21,7 @@ function createSignedRoute<TInput>(params: {
 }) {
 	return signedBuilderRuntimeRoute(params.run, {
 		secret: params.deps.overbaseSecret,
-		expectedAppSlug: BRING_THE_FIRM_APP_SLUG
+		expectedAppSlug: BRING_THE_FIRM_BUILDER_APP_SLUG
 	});
 }
 

@@ -1,8 +1,8 @@
 import type { BringTheFirmAiContext } from '../builder/index.js';
-import { BRING_THE_FIRM_DEFAULT_AI_CONTEXT } from '../builder/rules/index.js';
+import { BRING_THE_FIRM_BUILDER_DEFAULT_AI_CONTEXT } from '../builder/rules/index.js';
 import type { BuilderAppState } from '@overbase/builder-sdk/app-protocol';
 
-export type BringTheFirmAppState = {
+export type BringTheFirmBuilderAppState = {
 	selectedExamplesSlug?: string;
 	selectedExampleSlug?: string;
 	initialQuestionText?: string;
@@ -31,7 +31,7 @@ function normalizeBringTheFirmAiContext(
 	const normalized = {
 		personContext: aiContext?.personContext?.trim() || undefined,
 		conversationReason: aiContext?.conversationReason?.trim() || undefined,
-		formatUse: aiContext?.formatUse?.trim() || undefined
+		emailFormatUse: aiContext?.emailFormatUse?.trim() || undefined
 	};
 
 	return Object.values(normalized).some(Boolean) ? normalized : undefined;
@@ -45,14 +45,14 @@ function parseBringTheFirmAiContextFromAppState(
 	const parsed = {
 		personContext: getNonEmptyStringField(aiContext, 'personContext'),
 		conversationReason: getNonEmptyStringField(aiContext, 'conversationReason'),
-		formatUse: getNonEmptyStringField(aiContext, 'formatUse')
+		emailFormatUse: getNonEmptyStringField(aiContext, 'emailFormatUse')
 	};
 
 	return Object.values(parsed).some(Boolean) ? parsed : undefined;
 }
 
 function getBringTheFirmAiContext(appState?: BuilderAppState) {
-	const defaultAiContext = normalizeBringTheFirmAiContext(BRING_THE_FIRM_DEFAULT_AI_CONTEXT);
+	const defaultAiContext = normalizeBringTheFirmAiContext(BRING_THE_FIRM_BUILDER_DEFAULT_AI_CONTEXT);
 	const appStateAiContext = parseBringTheFirmAiContextFromAppState(appState);
 
 	return normalizeBringTheFirmAiContext({
@@ -61,7 +61,7 @@ function getBringTheFirmAiContext(appState?: BuilderAppState) {
 	});
 }
 
-export function getBringTheFirmAppState(appState?: BuilderAppState): BringTheFirmAppState {
+export function getBringTheFirmBuilderAppState(appState?: BuilderAppState): BringTheFirmBuilderAppState {
 	const value = isRecord(appState?.value) ? appState.value : {};
 
 	return {

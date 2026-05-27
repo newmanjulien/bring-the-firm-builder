@@ -8,7 +8,7 @@
 		"postinstall": "npm run builder-sdk:build",
 		"check": "npm run builder-sdk:build && tsc --noEmit",
 		"lint": "npm run builder-sdk:build && eslint .",
-		"dev": "BRING_THE_FIRM_DEV_HARNESS=1 node --env-file=.env.local --import tsx src/server.local.ts"
+		"dev": "BRING_THE_FIRM_BUILDER_DEV_HARNESS=1 node --env-file=.env.local --import tsx src/server.local.ts"
 	},
 	"dependencies": {
 		"@hono/node-server": "^1.19.6",
